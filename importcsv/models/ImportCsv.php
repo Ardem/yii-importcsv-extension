@@ -32,19 +32,19 @@ class ImportCsv extends CFormModel
      *
      *  $table - db table
      *  $linesArray - lines with values from csv
-     *  $poles - list of csv poles
+     *  $columns - list of csv columns
      *  $tableColumns - list of table columns
      *
      */
 
-    public function InsertAll($table, $linesArray, $poles, $tableColumns)
+    public function InsertAll($table, $linesArray, $columns, $tableColumns)
     {
-            // $polesLength - size of poles array
+            // $columnsLength - size of columns array
             // $tableString - rows in table
             // $tableString - items in csv
             // $linesLength - size of lines for insert array
 
-            $polesLength   = sizeof($poles);
+            $columnsLength   = sizeof($columns);
             $tableString = '';
             $csvString   = '';
             $n = 0;
@@ -54,18 +54,18 @@ class ImportCsv extends CFormModel
             
             for($k=0; $k<$linesLength; $k++) {
 
-                // watching all poles in POST
+                // watching all columns in POST
 
                 $n_in = 0;
                 
-                for($i=0; $i<$polesLength; $i++) {
-                    if($poles[$i]!='') {
+                for($i=0; $i<$columnsLength; $i++) {
+                    if($columns[$i]!='') {
                         if($k == 0) $tableString = ($n!=0) ? $tableString.", ".$tableColumns[$i] : $tableColumns[$i];
 
                         if($k == 0 && $n == 0) $csvString = "(";
                         if($k != 0 && $n_in == 0) $csvString = $csvString."), (";
 
-                        $csvString   = ($n_in!=0) ? $csvString.", '".CHtml::encode(stripslashes($linesArray[$k][$poles[$i]-1]))."'" : $csvString."'".CHtml::encode(stripslashes($linesArray[$k][$poles[$i]-1]))."'";
+                        $csvString   = ($n_in!=0) ? $csvString.", '".CHtml::encode(stripslashes($linesArray[$k][$columns[$i]-1]))."'" : $csvString."'".CHtml::encode(stripslashes($linesArray[$k][$columns[$i]-1]))."'";
                         
                         $n++;
                         $n_in++;
@@ -92,26 +92,26 @@ class ImportCsv extends CFormModel
      *  Update old rows
      *  $table - db table
      *  $csvLine - one line from csv
-     *  $poles - list of csv poles
+     *  $columns - list of csv columns
      *  $tableColumns - list of table columns
      *  $needle - value for compare from csv
      *  $tableKey - key for compare from table
      * 
      */
 
-    public function updateOld($table, $csvLine, $poles, $tableColumns, $needle, $tableKey)
+    public function updateOld($table, $csvLine, $columns, $tableColumns, $needle, $tableKey)
     {
-        // $polesLength - size of poles array
+        // $columnsLength - size of columns array
         // $tableString - rows in table
         // $csvLine - items from csv
         
-        $polesLength = sizeof($poles);
+        $columnsLength = sizeof($columns);
         $tableString = '';
         $n           = 0;
         
-        for($i=0; $i<$polesLength; $i++) {
-            if($poles[$i]!='') {
-                $tableString = ($n!=0) ? $tableString.", ".$tableColumns[$i]."='".CHtml::encode(stripslashes($csvLine[$poles[$i]-1]))."'" : $tableColumns[$i]."='".CHtml::encode(stripslashes($csvLine[$poles[$i]-1]))."'";
+        for($i=0; $i<$columnsLength; $i++) {
+            if($columns[$i]!='') {
+                $tableString = ($n!=0) ? $tableString.", ".$tableColumns[$i]."='".CHtml::encode(stripslashes($csvLine[$columns[$i]-1]))."'" : $tableColumns[$i]."='".CHtml::encode(stripslashes($csvLine[$columns[$i]-1]))."'";
 
                 $n++;
             }
@@ -129,7 +129,7 @@ class ImportCsv extends CFormModel
     }
 
     /*
-     * get poles from selected table
+     * get columns from selected table
      * $table - db table
      * @return array list of db columns
      *
@@ -144,7 +144,7 @@ class ImportCsv extends CFormModel
      * get attribute from all rows from selected table
      *
      * $table - db table
-     * $attribute - pole in db table
+     * $attribute - columns in db table
      * @return - rows array
      *
      */

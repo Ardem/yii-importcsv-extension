@@ -90,7 +90,7 @@ elseif($error==0){
     
     ?>
     <script type="text/javascript">
-        toThirdStep("<?php echo($thirdContent);?>", "<?php echo($delimiter);?>", "<?php echo($table);?>", "<?php echo($textDelimiter);?>");
+        toThirdStep("<?php echo($thirdContent);?>", "<?php echo addslashes($delimiter);?>", "<?php echo($table);?>", "<?php echo addslashes($textDelimiter);?>");
     </script>
     <?php
 }

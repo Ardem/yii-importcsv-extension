@@ -192,10 +192,11 @@ class DefaultController extends Controller {
 					    $csvLine = ($textDelimiter) ? str_getcsv($filecontent[$i], $delimiter, $textDelimiter) : str_getcsv($filecontent[$i], $delimiter);
 
 					    //Mode 1. insert All
-
+					    
 					    if ($mode == 1) {
 						$insertArray[] = $csvLine;
 						$insertCounter++;
+						
 						if ($insertCounter == $perRequest || $i == $lengthFile - 1) {
 						    $import = $model->InsertAll($table, $insertArray, $columns, $tableColumns);
 						    $insertCounter = 0;
@@ -226,18 +227,15 @@ class DefaultController extends Controller {
 					    // Mode 3. Insert new and replace old
 
 					    if ($mode == 3) {
-
-						$strCounter = 0;
 						if ($csvLine[$csvKey - 1] == '' || !$this->searchInOld($oldItems, $csvLine[$csvKey - 1], $tableKey)) {
 
 						    // insert new
-
-						    $linesArray[] = $csvLine;
-						    $strCounter++;
-						    if ($strCounter == $perRequest || $i == $lengthFile - 1) {
-							$import = $model->InsertAll($table, $linesArray, $columns, $tableColumns);
-							$strCounter = 0;
-							$linesArray = array();
+						    $insertArray[] = $csvLine;
+						    $insertCounter++;
+						    if ($insertCounter == $perRequest || $i == $lengthFile - 1) {
+							$import = $model->InsertAll($table, $insertArray, $columns, $tableColumns);
+							$insertCounter = 0;
+							$insertArray = array();
 
 							if ($import != 1)
 							    $arrays[] = $i;

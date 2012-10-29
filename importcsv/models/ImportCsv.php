@@ -3,26 +3,53 @@
  * ImportCSV Module
  *
  * @author Artem Demchenkov <lunoxot@mail.ru>
- * @version 0.0.1
+ * @version 0.0.3
  *
- *  Usage:
+ * ImportCSV is used for load positions from CSV file to database.
+ * Import occurs in three steps:
  *
- *  1) Copy all the 'importcsv' folder under /protected/modules
+ * Upload file;
+ * Select delimiter and table;
+ * Select mode and columns in table.
+ * Module has 3 modes:
+ * 
+ * Insert all - Add all rows;
+ * Insert new - Add new rows. Old rows remain unchanged;
+ * Insert new and replace old - Add new rows. Old rows replace.
+ * All parameters from the previous imports will be saved in a special .php file in upload folder.
+ * 
+ * Requirements 
+ * 
+ * Yii 1.1
+ * 
+ * Usage 
+ * 
+ * 1) Copy all the 'importcsv' folder under /protected/modules;
+ * 
+ * 2) Register this module in /protected/config/main.php
+ * 
+ * 'modules'=>array(
+ *         .........
+ *         'importcsv'=>array(
+ *             'path'=>'upload/importCsv/', // path to folder for saving csv file and file with import params
+ *         ),
+ *         ......
+ *     ),
+ * 3) Create a directory which you use in 'path'. Do not forget to set access permissions for directory 'path';
+ * 
+ * 4) The module is available here:
+ * 
+ * http://yourproject/importcsv.
+ * 
+ * Or here:
+ * 
+ * http://yourproject/index.php?r=importcsv.
+ * 
+ * Or somewhere else:-) It depends from path settings in your project;
+ * 
+ * 5) ATTENTION! The first row of your csv-file must will be a row with column names. 
  *
- *  2) Register module in /protected/config/main.php
- *     'modules'=>array(
- *		.........
- *               'importcsv'=>array(
- *			'path'=>'upload/importCsv/', // path to folder for saving csv file and file with import params
- *		),
- *              ......
- *	),
- *
- *  3) Do not forget to set permissions for directory 'path'
- *
- *  4) The module is available at http://yourproject/importcsv
- *
- */
+*/
 
 class ImportCsv extends CFormModel
 {
